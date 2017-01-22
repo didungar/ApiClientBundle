@@ -1,0 +1,19 @@
+{
+    "name": "DidUngar/ApiClientBundle",
+    "type": "library",
+    "description": "Bundle for manage simply a client for DidUngar/ApiServerBundle.",
+    "authors": [
+        {
+            "name": "Didier Ungar",
+            "email": "didungar@gmail.com"
+        }
+    ],
+    "autoload": {
+        "classmap": ["/"]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}
