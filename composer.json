@@ -10,5 +10,8 @@
     ],
     "autoload": {
         "classmap": ["/"]
+    },
+    "require": {
+        "csa/guzzle-bundle": "^3.1"
     }
 }
