@@ -13,14 +13,27 @@ class ApiClientService {
 		$this->auth_pw = $auth_pw;
 		return $this;
 	}
+	protected $api_client = null;
+	protected $secret = null;
+	public function setAuthClientSecret(string $api_client, string $secret) {
+		$this->api_client = $api_client;
+		$this->secret = $secret;
+		return $this;
+	}
 	public function query($sUri, $aData=[]) {
-		$sUrl = $this->api_url.$sUri;
+		if ( preg_match('/^http/', $sUri) ) {
+			$sUrl = $sUri;
+		} else {
+			$sUrl = $this->api_url.$sUri;
+		}
 
 		$aData['client'] = 'ApiClientService';
-		if ( $this->container->hasParameter('api_client') ) {
-			$aData['client'] = $this->container->getParameter('api_client');
+		if ( $this->api_client ) {
+			$aData['client'] = $this->api_client;
 		}
-		$aData['secret'] = md5(date('Ymd').$this->container->getParameter('secret'));
+		if ( $this->secret ) {
+			$aData['secret'] = md5(date('Ymd').$this->secret);
+		}
 
 		$postdata = http_build_query(
 			$aData
@@ -29,7 +42,7 @@ class ApiClientService {
 		$opts = ['http' =>
 					 [
 						 'method'  => 'POST',
-						 'header'  => 'Content-type: application/x-www-form-urlencoded',
+						 'header'  => ['Content-type: application/x-www-form-urlencoded'],
 						 'content' => $postdata,
 					 ],
 		];
